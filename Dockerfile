@@ -114,5 +114,12 @@ COPY tomcat-users.xml /usr/local/tomcat/conf
 RUN dos2unix /usr/local/tomcat/conf/server.xml
 RUN dos2unix /usr/local/tomcat/conf/tomcat-users.xml
 
+COPY entrypoint.sh /entrypoint.sh
+RUN dos2unix /entrypoint.sh
+RUN chmod 744 /entrypoint.sh
+
 EXPOSE 8082
-CMD ["catalina.sh", "run"]
+
+ENTRYPOINT /entrypoint.sh
+
+
