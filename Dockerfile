@@ -112,6 +112,8 @@ RUN apt-get install -y sudo
 
 COPY server.xml /usr/local/tomcat/conf
 COPY tomcat-users.xml /usr/local/tomcat/conf
+COPY context.xml /usr/local/tomcat/webapps/manager/META-INF
+RUN dos2unix /usr/local/tomcat/webapps/manager/META-INF/context.xml
 RUN dos2unix /usr/local/tomcat/conf/server.xml
 RUN dos2unix /usr/local/tomcat/conf/tomcat-users.xml
 
