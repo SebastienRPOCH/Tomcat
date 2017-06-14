@@ -1,4 +1,4 @@
-FROM openjdk:7-jre
+FROM openjdk:8-jre
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -15,7 +15,7 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 # > configure: error: Your version of OpenSSL is not compatible with this version of tcnative
 # see http://tomcat.10.x6.nabble.com/VOTE-Release-Apache-Tomcat-8-0-32-tp5046007p5046024.html (and following discussion)
 # and https://github.com/docker-library/tomcat/pull/31
-ENV OPENSSL_VERSION 1.1.0e-2
+ENV OPENSSL_VERSION 1.1.0f-3
 RUN { \
 		echo 'deb http://deb.debian.org/debian stretch main'; \
 	} > /etc/apt/sources.list.d/stretch.list \
@@ -43,8 +43,8 @@ RUN set -ex; \
 		gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
 	done
 
-ENV TOMCAT_MAJOR 7
-ENV TOMCAT_VERSION 7.0.78
+ENV TOMCAT_MAJOR 8
+ENV TOMCAT_VERSION 8.5.15
 
 # https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394
 ENV TOMCAT_TGZ_URL https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
@@ -82,7 +82,7 @@ RUN set -x \
 			--with-apr="$(which apr-1-config)" \
 			--with-java-home="$(docker-java-home)" \
 			--with-ssl=yes \
-		&& make -j$(nproc) \
+		&& make -j "$(nproc)" \
 		&& make install \
 	) \
 	&& apt-get purge -y --auto-remove $nativeBuildDeps \
@@ -98,6 +98,7 @@ RUN set -e \
 		echo >&2 "$nativeLines"; \
 		exit 1; \
 	fi
+
 	
 	
 #Parti ajout	
